@@ -1,5 +1,6 @@
 package com.rodrigoribeiro.agenda.viewmodels
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.rodrigoribeiro.agenda.data.GestorDeNotas
@@ -8,13 +9,24 @@ import com.rodrigoribeiro.agenda.data.Nota
 class NotasViewModel: ViewModel() {
 
     private val gestorNotas = GestorDeNotas()
-    private val mNotas = MutableLiveData<List<Nota>>()
+    private var mNotas: MutableLiveData<MutableList<Nota>>? = null
 
-    fun getNotas(): MutableLiveData<List<Nota>> = mNotas
+    fun getNotas(): LiveData<MutableList<Nota>> {
+        if(mNotas == null){
+            mNotas = gestorNotas.getNotas()
 
-    fun carregarNotas(){
-        val tmp = gestorNotas.getNotas()
-        mNotas.postValue(tmp)
+        }
+
+        return mNotas!!
     }
+
+    fun salvar(mNota: Nota){
+        gestorNotas.addNota(mNota)
+    }
+
+    /*fun carregarNotas(){
+        val tmp = gestorNotas.getNotas()
+        mNotas?.postValue()
+    }*/
 
 }

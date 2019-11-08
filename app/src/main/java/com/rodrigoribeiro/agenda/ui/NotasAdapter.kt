@@ -11,10 +11,6 @@ import kotlinx.android.synthetic.main.item_nota.view.*
 
 class NotasViewHpolder(val view: View): RecyclerView.ViewHolder(view){
 
-    val notasAdapter: NotasAdapter by lazy {
-        NotasAdapter()
-    }
-
     fun bindView(item: Nota){
         with(view){
             tv_nota.text = item.text
@@ -40,6 +36,12 @@ class NotasAdapter(val data: MutableList<Nota> = mutableListOf()):
 
     fun add(item: Nota){
         data.add(item)
+        notifyDataSetChanged()
+    }
+
+    fun add(itens: List<Nota>){
+        data.clear()
+        data.addAll(itens)
         notifyDataSetChanged()
     }
 
